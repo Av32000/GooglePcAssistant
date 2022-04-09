@@ -1,0 +1,94 @@
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Google Assistant</title>
+		<link rel="stylesheet" href="style.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			function SpeachText(text) {
+				var u = new SpeechSynthesisUtterance();
+				u.text = text;
+				u.lang = 'fr-FR';
+				u.rate = 1.5;
+				speechSynthesis.speak(u);
+			}
+		</script>
+		<script>
+			function GetResponse(data) {
+				//Ajout d'une bulle de dialogue
+				var bubble = document.createElement('div');
+				var bubble_content = document.createElement('div');
+				bubble_content.className = 'bubble_content';
+				bubble.className = 'speach';
+				bubble_content.innerHTML = data;
+				bubble.appendChild(bubble_content);
+				document.getElementById('bubbles').appendChild(bubble);
+				$('html,body').animate(
+					{ scrollTop: $('#separator').offset().top },
+					'slow',
+				);
+				$.ajax({
+					dataType: 'text',
+					url: 'http://localhost:4000/getResponse?' + data.split(' ').join('+'),
+					success: function (data) {
+						console.log(data);
+						var bubble = document.createElement('div');
+						var bubble_content = document.createElement('div');
+						bubble_content.className = 'bubble_content';
+						bubble.className = 'response';
+						bubble_content.innerHTML = data;
+						bubble.appendChild(bubble_content);
+						document.getElementById('bubbles').appendChild(bubble);
+						$('html,body').animate(
+							{ scrollTop: $('#separator').offset().top },
+							'slow',
+						);
+						SpeachText(data);
+					},
+					error: function (err) {
+						console.log('ERR', err.responseText);
+						SpeachText(err.responseText);
+					},
+				});
+				return false;
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="header">
+			<img
+				src="src/google-logo.png"
+				alt="Google Logo"
+				height="50px"
+				width="50px"
+			/>
+			<h1>Google PC Assistant</h1>
+		</div>
+		<p class="hints"></p>
+		<div id="bubbles"></div>
+		<div class="séparator" id="separator"></div>
+		<div class="footer">
+			<input
+				type="text"
+				name="text"
+				id="text"
+				placeholder="Type your command here"
+				autofocus
+			/>
+		</div>
+
+		<script src="script.js"></script>
+		<script>
+			const node = document.getElementById('text');
+			node.addEventListener('keyup', function (event) {
+				if (event.key === 'Enter') {
+					GetResponse(node.value);
+					node.value = '';
+				}
+			});
+		</script>
+	</body>
+</html>
