@@ -16,6 +16,11 @@
 			}
 		</script>
 		<script>
+			function StartRecording() {
+				var audio = new Audio('src/song.wav');
+				audio.play();
+				Restart();
+			}
 			function GetResponse(data) {
 				//Ajout d'une bulle de dialogue
 				var bubble = document.createElement('div');
@@ -71,7 +76,7 @@
 		<div id="bubbles"></div>
 		<div class="séparator" id="separator"></div>
 		<div class="footer">
-			<button onclick="recognition.start();">
+			<button onclick="StartRecording()">
 				<img src="src/micro.png" width="45px" height="45px" />
 			</button>
 			<input
