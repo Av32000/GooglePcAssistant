@@ -17,7 +17,7 @@
 }
 
 .footer input {
-	width: 94%;
+	width: 95%;
 	height: 100%;
 	border: none;
 	background: rgb(250, 250, 250);
@@ -59,4 +59,17 @@
 	margin-top: 10px;
 	height: 50px;
 	margin-bottom: 10px;
+}
+
+.footer img {
+	border-radius: 50%;
+	box-shadow: 5px 8px 25px -4px #000000;
+	bottom: 10px;
+}
+
+.footer button {
+	border: none;
+	background: none;
+	cursor: pointer;
+	border-radius: 50%;
 }
